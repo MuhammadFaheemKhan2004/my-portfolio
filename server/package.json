@@ -1,0 +1,32 @@
+{
+    "name": "portfolio-server",
+    "version": "1.0.0",
+    "description": "Backend API for Muhammad Faheem Khan's portfolio",
+    "type": "module",
+    "main": "src/index.js",
+    "scripts": {
+        "dev": "nodemon src/index.js",
+        "start": "node src/index.js",
+        "build": "echo 'No build step required'",
+        "seed": "node seed.js"
+    },
+    "keywords": [
+        "api",
+        "express",
+        "mongodb",
+        "portfolio"
+    ],
+    "author": "Muhammad Faheem Khan",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.18.2",
+        "mongoose": "^7.5.0",
+        "dotenv": "^16.3.1",
+        "cors": "^2.8.5",
+        "nodemailer": "^6.9.5",
+        "joi": "^17.10.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
