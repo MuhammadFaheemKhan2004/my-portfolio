@@ -1,24 +1,48 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-});
+let transporter = null;
+
+const getTransporter = () => {
+    if (!transporter) {
+        console.log('📧 Email Config:', {
+            user: process.env.EMAIL_USER,
+            passwordSet: !!process.env.EMAIL_PASSWORD
+        });
+
+        transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+        });
+    }
+    return transporter;
+};
+
+export const verifyEmailService = () => {
+    getTransporter().verify((error, success) => {
+        if (error) {
+            console.error('❌ Email transporter error:', error.message);
+        } else {
+            console.log('✅ Email service ready');
+        }
+    });
+};
 
 export const sendEmail = async (to, subject, html) => {
     try {
-        await transporter.sendMail({
+        console.log(`📤 Sending email to: ${to}, Subject: ${subject}`);
+        const info = await getTransporter().sendMail({
             from: process.env.EMAIL_USER,
             to,
             subject,
             html,
         });
+        console.log('✅ Email sent:', info.messageId);
         return true;
     } catch (error) {
-        console.error('Email error:', error);
+        console.error('❌ Email error:', error.message);
         return false;
     }
 };

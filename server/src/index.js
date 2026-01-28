@@ -1,12 +1,21 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import { connectDB } from './config/database.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import projectRoutes from './routes/projects.js';
 import contactRoutes from './routes/contact.js';
+import { verifyEmailService } from './utils/emailService.js';
 
-dotenv.config();
+// Verify email service after dotenv is loaded
+verifyEmailService();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
