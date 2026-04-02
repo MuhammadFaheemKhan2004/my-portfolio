@@ -42,17 +42,6 @@ const Footer = () => {
                             </span>
                             LinkedIn
                         </a>
-                        <a
-                            href="mailto:faheemniazi2004@gmail.com"
-                            className="rounded-full border border-slate-400/35 bg-primary/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-200 transition hover:border-sand/40 hover:text-sand"
-                        >
-                            <span className="mr-1 inline-block align-middle">
-                                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                                </svg>
-                            </span>
-                            Email
-                        </a>
                     </div>
 
                     <p className="mt-6 text-sm text-slate-300">Designed and engineered by Muhammad Faheem Khan</p>

@@ -9,62 +9,15 @@ const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const defaultProjects = [
-        {
-            _id: '1',
-            title: 'Exam Master Platform',
-            description: 'Large-scale exam prep product with MCQ engine, progress analytics, and job-alert workflows for competitive exams.',
-            image: 'https://images.unsplash.com/photo-1513258496099-48168024aec0?auto=format&fit=crop&w=900&q=80',
-            technologies: ['Flutter', 'Firebase', 'Kotlin'],
-            github: 'https://github.com',
-            demo: 'https://example.com',
-            featured: true,
-        },
-        {
-            _id: '2',
-            title: 'AI Legal Assistant',
-            description: 'AI-powered legal roadmap app that transforms user case details into clear action plans and compliance checklists.',
-            image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=900&q=80',
-            technologies: ['React', 'Node.js', 'AI', 'MongoDB'],
-            github: 'https://github.com',
-            demo: 'https://example.com',
-            featured: true,
-        },
-        {
-            _id: '3',
-            title: 'Events Commerce Suite',
-            description: 'End-to-end event planning and vendor booking system with role-based dashboards and payment flow support.',
-            image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=900&q=80',
-            technologies: ['React', 'Express', 'MongoDB', 'Stripe'],
-            github: 'https://github.com',
-            demo: 'https://example.com',
-            featured: true,
-        },
-        {
-            _id: '4',
-            title: 'Realtime Chat Workspace',
-            description: 'Realtime communication app with presence tracking, media support, and smooth cross-device conversation continuity.',
-            image: 'https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=900&q=80',
-            technologies: ['React', 'Firebase', 'Node.js'],
-            github: 'https://github.com',
-            demo: 'https://example.com',
-            featured: false,
-        },
-    ];
-
     useEffect(() => {
         const fetchProjects = async () => {
             try {
                 const response = await ProjectService.getAll();
-                if (response.data && response.data.length > 0) {
-                    setProjects(response.data);
-                } else {
-                    setProjects(defaultProjects);
-                }
-                setLoading(false);
+                setProjects(Array.isArray(response.data) ? response.data : []);
             } catch (err) {
-                console.log('Using fallback project data:', err.message);
-                setProjects(defaultProjects);
+                console.log('Failed to load projects from server:', err.message);
+                setProjects([]);
+            } finally {
                 setLoading(false);
             }
         };
@@ -153,20 +106,12 @@ const Projects = () => {
                                             ))}
                                         </div>
 
-                                        <div className="flex gap-4">
-                                            <a
-                                                href={project.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex-1 rounded-full border border-slate-400/40 px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] text-slate-200 transition hover:border-slate-200/50 hover:bg-slate-100/10"
-                                            >
-                                                GitHub
-                                            </a>
+                                        <div>
                                             <a
                                                 href={project.demo}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex-1 rounded-full bg-accent px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-accent-hover"
+                                                className="block w-full rounded-full bg-accent px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-accent-hover"
                                             >
                                                 Live Preview
                                             </a>
