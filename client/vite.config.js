@@ -4,8 +4,15 @@ import path from 'path'
 
 export default defineConfig({
     plugins: [react()],
+    base: '/my-portfolio/',
     build: {
+        sourcemap: false,
         outDir: 'build',
         emptyOutDir: true,
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src'),
+        },
     },
 })
