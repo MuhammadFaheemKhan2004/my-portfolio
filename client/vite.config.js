@@ -7,7 +7,7 @@ export default defineConfig({
     base: '/my-portfolio/',
     build: {
         sourcemap: false,
-        outDir: '../docs',
+        outDir: 'build',
         emptyOutDir: true,
     },
     resolve: {
