@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { ProjectService } from '@/services/api';
 
 const Projects = () => {
