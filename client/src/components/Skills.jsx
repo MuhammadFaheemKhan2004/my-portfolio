@@ -8,28 +8,34 @@ const Skills = () => {
 
     const skillCategories = [
         {
-            category: 'Mobile',
+            category: 'Mobile Engineering',
             skills: ['Flutter', 'Kotlin', 'Firebase', 'GetX', 'Provider'],
+            level: 94,
         },
         {
-            category: 'Frontend',
-            skills: ['React', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'Framer Motion'],
+            category: 'Frontend Systems',
+            skills: ['React', 'JavaScript', 'Tailwind CSS', 'Framer Motion', 'State Design'],
+            level: 92,
         },
         {
-            category: 'Backend',
+            category: 'Backend APIs',
             skills: ['Node.js', 'Express.js', 'REST APIs', 'JWT', 'CORS'],
+            level: 90,
         },
         {
-            category: 'Databases',
+            category: 'Database Layer',
             skills: ['MongoDB', 'Firebase Realtime', 'Mongoose', 'SQL'],
+            level: 88,
         },
         {
             category: 'Languages',
-            skills: ['Dart', 'Kotlin', 'JavaScript', 'TypeScript', 'Python'],
+            skills: ['Dart', 'Kotlin', 'JavaScript', 'Python'],
+            level: 91,
         },
         {
-            category: 'AI & APIs',
+            category: 'AI + Integrations',
             skills: ['OpenAI API', 'Google APIs', 'News API', 'Gemini API', 'Custom AI Models'],
+            level: 86,
         },
     ];
 
@@ -47,31 +53,48 @@ const Skills = () => {
     };
 
     return (
-        <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/20">
-            <div className="max-w-6xl mx-auto">
+        <section id="skills" className="py-16 sm:py-20">
+            <div className="section-shell">
                 <motion.div
                     ref={ref}
                     variants={containerVariants}
                     initial="hidden"
                     animate={isVisible ? 'visible' : 'hidden'}
                 >
-                    <motion.h2 variants={itemVariants} className="text-4xl font-bold mb-12 text-center">
-                        My <span className="text-accent">Skills</span>
-                    </motion.h2>
+                    <motion.div variants={itemVariants} className="mb-10 text-center">
+                        <span className="eyebrow">Capabilities</span>
+                        <h2 className="section-title mt-4">Crafted across mobile, web, backend, and AI.</h2>
+                        <p className="section-subtitle mx-auto mt-4 max-w-3xl">
+                            A practical stack built for shipping products fast without sacrificing long-term maintainability.
+                        </p>
+                    </motion.div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {skillCategories.map((cat, index) => (
+                    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                        {skillCategories.map((cat) => (
                             <motion.div
-                                key={index}
+                                key={cat.category}
                                 variants={itemVariants}
-                                className="bg-secondary/50 p-6 rounded-lg border border-secondary hover:border-accent/50 transition-all duration-300"
+                                className="glass-panel rounded-3xl p-6 transition-transform duration-300 hover:-translate-y-1"
                             >
-                                <h3 className="text-xl font-semibold mb-4 text-accent">{cat.category}</h3>
-                                <div className="flex flex-wrap gap-2">
+                                <div className="flex items-start justify-between gap-2">
+                                    <h3 className="text-lg font-semibold text-slate-100">{cat.category}</h3>
+                                    <span className="rounded-full border border-sand/30 px-2.5 py-1 text-xs font-semibold text-sand">
+                                        {cat.level}%
+                                    </span>
+                                </div>
+
+                                <div className="mt-4 h-2 rounded-full bg-slate-900/70">
+                                    <div
+                                        className="h-2 rounded-full bg-gradient-to-r from-accent to-mint"
+                                        style={{ width: `${cat.level}%` }}
+                                    />
+                                </div>
+
+                                <div className="mt-5 flex flex-wrap gap-2">
                                     {cat.skills.map((skill, i) => (
                                         <span
                                             key={i}
-                                            className="px-3 py-1 bg-accent/10 text-accent text-sm rounded-full border border-accent/30 hover:bg-accent hover:text-white transition-colors"
+                                            className="rounded-full border border-slate-400/35 bg-primary/45 px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-slate-200"
                                         >
                                             {skill}
                                         </span>

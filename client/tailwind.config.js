@@ -6,11 +6,17 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['Manrope', 'sans-serif'],
+                display: ['Archivo Black', 'sans-serif'],
+            },
             colors: {
-                primary: '#0f172a',
-                secondary: '#1e293b',
-                accent: '#3b82f6',
-                'accent-hover': '#2563eb',
+                primary: '#071015',
+                secondary: '#132633',
+                accent: '#ff7a18',
+                'accent-hover': '#e96e15',
+                mint: '#38d9a9',
+                sand: '#ffc569',
             },
             animation: {
                 'fade-in': 'fadeIn 0.5s ease-in-out',

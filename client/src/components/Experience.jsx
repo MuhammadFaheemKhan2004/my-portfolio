@@ -9,30 +9,30 @@ const Experience = () => {
     const experiences = [
         {
             role: 'Full Stack Developer',
-            company: 'Tech Startup',
+            company: 'Product and Startup Projects',
             period: '2023 - Present',
-            description: 'Developing mobile and web applications using Flutter and React with Node.js backend.',
+            description: 'Leading complete product delivery from UI architecture to backend APIs for mobile and web solutions.',
             type: 'Work',
         },
         {
-            role: 'Mobile Developer',
-            company: 'App Development Agency',
+            role: 'Mobile App Developer',
+            company: 'Client Product Builds',
             period: '2022 - 2023',
-            description: 'Built cross-platform mobile applications using Flutter with Firebase integration.',
+            description: 'Built production-grade Flutter applications with Firebase, push notifications, and real-time syncing.',
             type: 'Work',
         },
         {
-            role: 'Junior Developer',
-            company: 'Web Solutions',
-            period: '2022 - 2022',
-            description: 'Started career working with React and JavaScript for web development projects.',
+            role: 'Frontend Engineer',
+            company: 'Web Development Projects',
+            period: '2021 - 2022',
+            description: 'Designed responsive React interfaces with performance-first component systems and cleaner UX flows.',
             type: 'Work',
         },
         {
             role: 'BS Computer Science',
             company: 'Quaid-e-Azam University',
             period: '2020 - 2024',
-            description: 'Completed degree with focus on software development and computer science fundamentals.',
+            description: 'Solidified software engineering foundations while shipping practical projects with real users.',
             type: 'Education',
         },
     ];
@@ -51,39 +51,42 @@ const Experience = () => {
     };
 
     return (
-        <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
+        <section id="experience" className="py-16 sm:py-20">
+            <div className="section-shell">
                 <motion.div
                     ref={ref}
                     variants={containerVariants}
                     initial="hidden"
                     animate={isVisible ? 'visible' : 'hidden'}
                 >
-                    <motion.h2 variants={itemVariants} className="text-4xl font-bold mb-12 text-center">
-                        Experience & <span className="text-accent">Education</span>
-                    </motion.h2>
+                    <motion.div variants={itemVariants} className="mb-10 text-center">
+                        <span className="eyebrow">Journey</span>
+                        <h2 className="section-title mt-4">A timeline focused on shipping and growth.</h2>
+                    </motion.div>
 
-                    <div className="space-y-8">
+                    <div className="relative mx-auto max-w-4xl space-y-6 before:absolute before:left-3 before:top-2 before:h-[95%] before:w-px before:bg-gradient-to-b before:from-sand/70 before:to-mint/40 sm:before:left-1/2 sm:before:-translate-x-1/2">
                         {experiences.map((exp, index) => (
                             <motion.div
                                 key={index}
                                 variants={itemVariants}
-                                className="bg-secondary/50 p-6 rounded-lg border border-secondary hover:border-accent/50 transition-all duration-300"
+                                className={`relative sm:w-[48%] ${index % 2 === 0 ? 'sm:mr-auto sm:pr-8' : 'sm:ml-auto sm:pl-8'}`}
                             >
-                                <div className="flex justify-between items-start mb-4">
-                                    <div>
-                                        <h3 className="text-xl font-semibold text-accent">{exp.role}</h3>
-                                        <p className="text-gray-400">{exp.company}</p>
+                                <span className="absolute left-3 top-7 h-2.5 w-2.5 -translate-x-1/2 rounded-full border border-sand bg-accent sm:left-auto sm:right-0 sm:translate-x-1/2" />
+
+                                <div className="glass-panel ml-7 rounded-2xl p-5 sm:ml-0">
+                                    <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                                        <span className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">{exp.period}</span>
+                                        <span
+                                            className={`rounded-full px-3 py-1 text-[11px] font-bold uppercase tracking-[0.12em] ${exp.type === 'Work' ? 'bg-accent/20 text-sand' : 'bg-mint/15 text-mint'}`}
+                                        >
+                                            {exp.type}
+                                        </span>
                                     </div>
-                                    <span className={`px-3 py-1 rounded text-sm font-medium ${exp.type === 'Work'
-                                            ? 'bg-accent/20 text-accent'
-                                            : 'bg-blue-500/20 text-blue-400'
-                                        }`}>
-                                        {exp.type}
-                                    </span>
+
+                                    <h3 className="text-lg font-bold text-slate-100">{exp.role}</h3>
+                                    <p className="text-sm text-slate-400">{exp.company}</p>
+                                    <p className="mt-3 text-sm leading-relaxed text-slate-300">{exp.description}</p>
                                 </div>
-                                <p className="text-gray-400 text-sm mb-3">{exp.period}</p>
-                                <p className="text-gray-300">{exp.description}</p>
                             </motion.div>
                         ))}
                     </div>
