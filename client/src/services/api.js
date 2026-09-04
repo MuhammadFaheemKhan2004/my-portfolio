@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const RAW_API_BASE = (import.meta.env.VITE_API_URL || '').trim();
-const DEFAULT_API_BASE = 'http://localhost:5000/api';
-const FALLBACK_PRODUCTION_API_BASE = 'https://portfolio-ypt2.onrender.com/api';
+const LIVE_RENDER_API = 'https://portfolio-ypt2.onrender.com/api';
 
 const API_BASE =
-    !RAW_API_BASE || RAW_API_BASE.includes('your-backend-service.onrender.com')
-        ? (import.meta.env.PROD ? FALLBACK_PRODUCTION_API_BASE : DEFAULT_API_BASE)
+    !RAW_API_BASE || RAW_API_BASE.includes('your-backend-service.onrender.com') || RAW_API_BASE === 'http://localhost:5000/api'
+        ? LIVE_RENDER_API
         : RAW_API_BASE;
+
 
 const apiClient = axios.create({
     baseURL: API_BASE,
