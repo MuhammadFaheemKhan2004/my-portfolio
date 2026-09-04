@@ -37,7 +37,7 @@ const contactInfo = [
         ),
         label: 'Email',
         value: EMAIL_ADDRESS,
-        href: `mailto:${EMAIL_ADDRESS}`,
+        href: `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_ADDRESS}&su=Project%20Inquiry%20-%20Portfolio`,
         color: 'text-accent',
         bg: 'bg-accent/8 border-accent/15',
     },
@@ -61,9 +61,23 @@ const Contact = () => {
     const isVisible = useIntersectionObserver(ref);
     const [name, setName] = useState('');
     const [message, setMessage] = useState('');
+    const [copied, setCopied] = useState(false);
+    const [notification, setNotification] = useState(null);
+
+    const showNotification = (msg) => {
+        setNotification(msg);
+        setTimeout(() => setNotification(null), 4000);
+    };
+
+    const copyEmailAddress = () => {
+        navigator.clipboard.writeText(EMAIL_ADDRESS);
+        setCopied(true);
+        showNotification('✓ Email address copied: ' + EMAIL_ADDRESS);
+        setTimeout(() => setCopied(false), 3000);
+    };
 
     const handleWhatsAppSend = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         const greeting = name.trim() ? `Hi Faheem, I'm ${name.trim()}.` : 'Hi Faheem,';
         const body = message.trim() ? ` ${message.trim()}` : " I'd like to discuss a project with you.";
         const fullText = `${greeting}${body}`;
@@ -72,13 +86,21 @@ const Contact = () => {
     };
 
     const handleEmailSend = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         const subject = name.trim() ? `Project Inquiry from ${name.trim()}` : 'Project Inquiry - Portfolio';
         const body = message.trim()
             ? `Hi Faheem,\n\n${message.trim()}\n\nBest regards,\n${name.trim() || 'A potential client'}`
             : `Hi Faheem,\n\nI'd like to discuss a project with you.\n\nBest regards,\n${name.trim() || 'A potential client'}`;
-        const url = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = url;
+
+        // 1. Copy to clipboard so user always has it guaranteed
+        navigator.clipboard.writeText(EMAIL_ADDRESS);
+        setCopied(true);
+        showNotification(`✓ Opening Gmail compose... (${EMAIL_ADDRESS} copied to clipboard)`);
+        setTimeout(() => setCopied(false), 3500);
+
+        // 2. Open Gmail Web Compose (works on every device/browser without needing desktop Outlook configured)
+        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${EMAIL_ADDRESS}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(gmailUrl, '_blank', 'noopener,noreferrer');
     };
 
     return (
@@ -98,7 +120,7 @@ const Contact = () => {
                             <span className="shimmer-text">something exceptional.</span>
                         </h2>
                         <p className="section-subtitle mx-auto mt-4 max-w-lg">
-                            Reach out directly via WhatsApp or Email — I respond fast within a few hours.
+                            Reach out directly via WhatsApp or Email — fast response within a few hours.
                         </p>
                     </motion.div>
 
@@ -125,13 +147,13 @@ const Contact = () => {
                                             className={`flex items-center gap-4 rounded-xl border p-4 ${c.bg}`}
                                         >
                                             <span className={`shrink-0 ${c.color}`}>{c.icon}</span>
-                                            <div className="min-w-0">
+                                            <div className="min-w-0 flex-1">
                                                 <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7b97ae]">{c.label}</p>
                                                 {c.href ? (
                                                     <a
                                                         href={c.href}
-                                                        target={c.href.startsWith('http') ? '_blank' : undefined}
-                                                        rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
                                                         className={`block truncate text-sm font-semibold text-white transition hover:${c.color} mt-0.5`}
                                                     >
                                                         {c.value}
@@ -140,6 +162,16 @@ const Contact = () => {
                                                     <p className="mt-0.5 text-sm font-semibold text-white">{c.value}</p>
                                                 )}
                                             </div>
+                                            {c.label === 'Email' && (
+                                                <button
+                                                    type="button"
+                                                    onClick={copyEmailAddress}
+                                                    className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[11px] font-medium text-[#7b97ae] transition hover:border-accent hover:text-accent"
+                                                    aria-label="Copy email"
+                                                >
+                                                    {copied ? '✓ Copied' : 'Copy'}
+                                                </button>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -185,8 +217,21 @@ const Contact = () => {
                                     Choose how you'd like to reach me
                                 </h3>
                                 <p className="mt-2 text-[13px] leading-relaxed text-[#7b97ae]">
-                                    Click below to start a conversation immediately on WhatsApp or launch your email client.
+                                    Click below to start a conversation immediately on WhatsApp or launch your email.
                                 </p>
+
+                                {/* Notification banner */}
+                                {notification && (
+                                    <div className="mt-4 rounded-xl border border-mint/30 bg-mint/10 p-3 text-[12px] font-medium text-mint flex items-center justify-between">
+                                        <span>{notification}</span>
+                                        <a
+                                            href={`mailto:${EMAIL_ADDRESS}?subject=Project%20Inquiry`}
+                                            className="text-[11px] text-white underline ml-2 shrink-0 hover:text-mint"
+                                        >
+                                            Open Mail App
+                                        </a>
+                                    </div>
+                                )}
 
                                 {/* The 2 Primary Direct Action Buttons */}
                                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -204,23 +249,38 @@ const Contact = () => {
                                         Chat on WhatsApp
                                     </a>
 
-                                    {/* Email Direct Button */}
-                                    <a
-                                        href={`mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent("Project Inquiry - Portfolio")}`}
-                                        className="btn-email-action w-full"
+                                    {/* Email Direct Button — Guaranteed action (opens Gmail + copies email) */}
+                                    <button
+                                        type="button"
+                                        onClick={handleEmailSend}
+                                        className="btn-email-action w-full cursor-pointer"
                                     >
                                         <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                         Send an Email
-                                    </a>
+                                    </button>
+                                </div>
+
+                                {/* Direct email address & Copy button */}
+                                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-white/4 border border-white/6 px-4 py-2.5 text-[12px]">
+                                    <span className="text-[#7b97ae]">
+                                        Email: <span className="font-semibold text-white select-all">{EMAIL_ADDRESS}</span>
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={copyEmailAddress}
+                                        className="inline-flex items-center gap-1 rounded-md bg-white/8 px-2.5 py-1 text-[11px] font-semibold text-accent transition hover:bg-white/15"
+                                    >
+                                        {copied ? '✓ Copied to clipboard' : '📋 Copy Address'}
+                                    </button>
                                 </div>
 
                                 {/* Divider */}
-                                <div className="my-7 flex items-center gap-3">
+                                <div className="my-6 flex items-center gap-3">
                                     <span className="h-px flex-1 bg-white/8" />
                                     <span className="text-[11px] font-semibold uppercase tracking-widest text-[#4a6275]">
-                                        Or draft a brief message
+                                        Or compose a quick message
                                     </span>
                                     <span className="h-px flex-1 bg-white/8" />
                                 </div>
@@ -257,18 +317,18 @@ const Contact = () => {
                                 <button
                                     type="button"
                                     onClick={handleWhatsAppSend}
-                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-mint/30 bg-mint/10 py-3 text-xs font-bold uppercase tracking-wider text-mint transition-all duration-200 hover:bg-mint/20 hover:border-mint/60"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-mint/30 bg-mint/10 py-3 text-xs font-bold uppercase tracking-wider text-mint transition-all duration-200 hover:bg-mint/20 hover:border-mint/60 cursor-pointer"
                                 >
                                     <span className="h-2 w-2 rounded-full bg-mint" />
-                                    Send to WhatsApp
+                                    Send via WhatsApp
                                 </button>
                                 <button
                                     type="button"
                                     onClick={handleEmailSend}
-                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent/10 py-3 text-xs font-bold uppercase tracking-wider text-accent transition-all duration-200 hover:bg-accent/20 hover:border-accent/60"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent/10 py-3 text-xs font-bold uppercase tracking-wider text-accent transition-all duration-200 hover:bg-accent/20 hover:border-accent/60 cursor-pointer"
                                 >
                                     <span className="h-2 w-2 rounded-full bg-accent" />
-                                    Send to Email
+                                    Send via Email
                                 </button>
                             </div>
                         </motion.div>
