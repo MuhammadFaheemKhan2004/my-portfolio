@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
-import { ContactService } from '@/services/api';
 
 const container = {
     hidden: { opacity: 0 },
@@ -13,7 +12,23 @@ const item = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
+const WHATSAPP_NUMBER = '923079079023';
+const EMAIL_ADDRESS = 'faheemniazi2004@gmail.com';
+
 const contactInfo = [
+    {
+        icon: (
+            <svg className="h-4.5 w-4.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.083-2.115-.499-1.815-.745-2.984-2.58-3.074-2.7-.091-.121-.743-.988-.743-1.884 0-.897.469-1.339.636-1.52.167-.182.364-.228.485-.228.121 0 .242.002.348.006.113.006.264-.043.413.315.152.364.516 1.26.562 1.351.045.091.076.197.015.318-.061.121-.091.197-.182.303-.091.106-.192.237-.274.318-.091.091-.186.19-.08.372.106.182.471.777.999 1.248.681.608 1.256.796 1.438.887.182.091.288.076.394-.045.106-.121.455-.53.576-.712.121-.182.242-.152.409-.091.167.061 1.061.5 1.243.591.182.091.303.136.348.212.045.076.045.439-.099.844z"/>
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.985-1.397C8.423 21.493 10.153 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.688 0-3.253-.518-4.555-1.405l-.326-.222-2.946.825.834-2.868-.242-.345C3.818 14.814 3.333 13.447 3.333 12c0-4.779 3.888-8.667 8.667-8.667 4.779 0 8.667 3.888 8.667 8.667 0 4.779-3.888 8.667-8.667 8.667z"/>
+            </svg>
+        ),
+        label: 'WhatsApp',
+        value: '+92 307 9079023',
+        href: `https://wa.me/${WHATSAPP_NUMBER}`,
+        color: 'text-mint',
+        bg: 'bg-mint/8 border-mint/15',
+    },
     {
         icon: (
             <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
@@ -21,22 +36,10 @@ const contactInfo = [
             </svg>
         ),
         label: 'Email',
-        value: 'faheemniazi2004@gmail.com',
-        href: 'mailto:faheemniazi2004@gmail.com',
+        value: EMAIL_ADDRESS,
+        href: `mailto:${EMAIL_ADDRESS}`,
         color: 'text-accent',
         bg: 'bg-accent/8 border-accent/15',
-    },
-    {
-        icon: (
-            <svg className="h-4.5 w-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-        ),
-        label: 'Phone',
-        value: '+92 307 9079023',
-        href: 'tel:+923079079023',
-        color: 'text-mint',
-        bg: 'bg-mint/8 border-mint/15',
     },
     {
         icon: (
@@ -56,25 +59,26 @@ const contactInfo = [
 const Contact = () => {
     const ref = useRef(null);
     const isVisible = useIntersectionObserver(ref);
-    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-    const [loading, setLoading] = useState(false);
-    const [status, setStatus] = useState(null);
+    const [name, setName] = useState('');
+    const [message, setMessage] = useState('');
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const handleSubmit = async (e) => {
+    const handleWhatsAppSend = (e) => {
         e.preventDefault();
-        setLoading(true);
-        setStatus(null);
-        try {
-            await ContactService.sendMessage(formData);
-            setStatus({ type: 'success', message: '✓ Message sent! I\'ll get back to you shortly.' });
-            setFormData({ name: '', email: '', subject: '', message: '' });
-        } catch {
-            setStatus({ type: 'error', message: '✕ Something went wrong. Please try again or email me directly.' });
-        } finally {
-            setLoading(false);
-        }
+        const greeting = name.trim() ? `Hi Faheem, I'm ${name.trim()}.` : 'Hi Faheem,';
+        const body = message.trim() ? ` ${message.trim()}` : " I'd like to discuss a project with you.";
+        const fullText = `${greeting}${body}`;
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullText)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
+    const handleEmailSend = (e) => {
+        e.preventDefault();
+        const subject = name.trim() ? `Project Inquiry from ${name.trim()}` : 'Project Inquiry - Portfolio';
+        const body = message.trim()
+            ? `Hi Faheem,\n\n${message.trim()}\n\nBest regards,\n${name.trim() || 'A potential client'}`
+            : `Hi Faheem,\n\nI'd like to discuss a project with you.\n\nBest regards,\n${name.trim() || 'A potential client'}`;
+        const url = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = url;
     };
 
     return (
@@ -88,57 +92,61 @@ const Contact = () => {
                 >
                     {/* Header */}
                     <motion.div variants={item} className="mb-14 text-center">
-                        <span className="eyebrow">Contact</span>
+                        <span className="eyebrow">Get In Touch</span>
                         <h2 className="section-title mt-5">
-                            Let's turn your idea into<br />
-                            <span className="shimmer-text">a polished product.</span>
+                            Let's connect & build<br />
+                            <span className="shimmer-text">something exceptional.</span>
                         </h2>
                         <p className="section-subtitle mx-auto mt-4 max-w-lg">
-                            Share your vision and timeline — I'll help shape it into something exceptional.
+                            Reach out directly via WhatsApp or Email — I respond fast within a few hours.
                         </p>
                     </motion.div>
 
                     <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-                        {/* Left panel — info */}
-                        <motion.div variants={item} className="glass-panel rounded-3xl p-8">
-                            <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Open for collaboration</p>
-                            <h3 className="mt-3 font-display text-2xl font-bold text-white sm:text-[1.75rem] leading-tight">
-                                Build something<br />standout together.
-                            </h3>
+                        {/* Left panel — details & social */}
+                        <motion.div variants={item} className="glass-panel rounded-3xl p-8 flex flex-col justify-between">
+                            <div>
+                                <p className="text-[11px] font-bold uppercase tracking-widest text-accent">Direct Communication</p>
+                                <h3 className="mt-3 font-display text-2xl font-bold text-white sm:text-[1.75rem] leading-tight">
+                                    Fast response.<br />Direct conversation.
+                                </h3>
 
-                            {/* Availability pill */}
-                            <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-mint/25 bg-mint/8 px-4 py-2">
-                                <span className="pulse-glow h-2 w-2 rounded-full bg-mint" />
-                                <span className="text-[12px] font-semibold text-mint">Currently accepting projects</span>
-                            </div>
+                                {/* Availability pill */}
+                                <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-mint/25 bg-mint/8 px-4 py-2">
+                                    <span className="pulse-glow h-2 w-2 rounded-full bg-mint" />
+                                    <span className="text-[12px] font-semibold text-mint">Available for Freelance & Full-Time Roles</span>
+                                </div>
 
-                            {/* Contact details */}
-                            <div className="mt-7 space-y-3">
-                                {contactInfo.map((c) => (
-                                    <div
-                                        key={c.label}
-                                        className={`flex items-center gap-4 rounded-xl border p-4 ${c.bg}`}
-                                    >
-                                        <span className={`shrink-0 ${c.color}`}>{c.icon}</span>
-                                        <div className="min-w-0">
-                                            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7b97ae]">{c.label}</p>
-                                            {c.href ? (
-                                                <a
-                                                    href={c.href}
-                                                    className={`block truncate text-sm font-semibold text-white transition hover:${c.color} mt-0.5`}
-                                                >
-                                                    {c.value}
-                                                </a>
-                                            ) : (
-                                                <p className="mt-0.5 text-sm font-semibold text-white">{c.value}</p>
-                                            )}
+                                {/* Contact details */}
+                                <div className="mt-7 space-y-3">
+                                    {contactInfo.map((c) => (
+                                        <div
+                                            key={c.label}
+                                            className={`flex items-center gap-4 rounded-xl border p-4 ${c.bg}`}
+                                        >
+                                            <span className={`shrink-0 ${c.color}`}>{c.icon}</span>
+                                            <div className="min-w-0">
+                                                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7b97ae]">{c.label}</p>
+                                                {c.href ? (
+                                                    <a
+                                                        href={c.href}
+                                                        target={c.href.startsWith('http') ? '_blank' : undefined}
+                                                        rel={c.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                                        className={`block truncate text-sm font-semibold text-white transition hover:${c.color} mt-0.5`}
+                                                    >
+                                                        {c.value}
+                                                    </a>
+                                                ) : (
+                                                    <p className="mt-0.5 text-sm font-semibold text-white">{c.value}</p>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Social links */}
-                            <div className="mt-6 flex gap-3">
+                            <div className="mt-8 flex gap-3">
                                 <a
                                     href="https://github.com"
                                     target="_blank"
@@ -166,106 +174,104 @@ const Contact = () => {
                             </div>
                         </motion.div>
 
-                        {/* Right panel — form */}
-                        <motion.form
-                            variants={item}
-                            onSubmit={handleSubmit}
-                            className="glass-panel rounded-3xl p-8"
-                        >
-                            <div className="grid gap-5 sm:grid-cols-2">
-                                <div>
-                                    <label className="form-label" htmlFor="contact-name">Name</label>
-                                    <input
-                                        id="contact-name"
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                        className="form-input"
-                                        placeholder="Your name"
-                                    />
+                        {/* Right panel — Direct Action + Quick Composer */}
+                        <motion.div variants={item} className="glass-panel rounded-3xl p-8 flex flex-col justify-between">
+                            <div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[11px] font-bold uppercase tracking-widest text-mint">Instant Connect</span>
+                                    <span className="text-[12px] text-[#7b97ae]">No waiting</span>
                                 </div>
-                                <div>
-                                    <label className="form-label" htmlFor="contact-email">Email</label>
-                                    <input
-                                        id="contact-email"
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        className="form-input"
-                                        placeholder="your@email.com"
-                                    />
+                                <h3 className="mt-2 font-display text-2xl font-bold text-white leading-tight">
+                                    Choose how you'd like to reach me
+                                </h3>
+                                <p className="mt-2 text-[13px] leading-relaxed text-[#7b97ae]">
+                                    Click below to start a conversation immediately on WhatsApp or launch your email client.
+                                </p>
+
+                                {/* The 2 Primary Direct Action Buttons */}
+                                <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                                    {/* WhatsApp Direct Button */}
+                                    <a
+                                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Faheem, I'm reaching out through your portfolio to discuss a project.")}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="btn-whatsapp w-full"
+                                    >
+                                        <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.698.083-2.115-.499-1.815-.745-2.984-2.58-3.074-2.7-.091-.121-.743-.988-.743-1.884 0-.897.469-1.339.636-1.52.167-.182.364-.228.485-.228.121 0 .242.002.348.006.113.006.264-.043.413.315.152.364.516 1.26.562 1.351.045.091.076.197.015.318-.061.121-.091.197-.182.303-.091.106-.192.237-.274.318-.091.091-.186.19-.08.372.106.182.471.777.999 1.248.681.608 1.256.796 1.438.887.182.091.288.076.394-.045.106-.121.455-.53.576-.712.121-.182.242-.152.409-.091.167.061 1.061.5 1.243.591.182.091.303.136.348.212.045.076.045.439-.099.844z"/>
+                                            <path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.985-1.397C8.423 21.493 10.153 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.167c-1.688 0-3.253-.518-4.555-1.405l-.326-.222-2.946.825.834-2.868-.242-.345C3.818 14.814 3.333 13.447 3.333 12c0-4.779 3.888-8.667 8.667-8.667 4.779 0 8.667 3.888 8.667 8.667 0 4.779-3.888 8.667-8.667 8.667z"/>
+                                        </svg>
+                                        Chat on WhatsApp
+                                    </a>
+
+                                    {/* Email Direct Button */}
+                                    <a
+                                        href={`mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent("Project Inquiry - Portfolio")}`}
+                                        className="btn-email-action w-full"
+                                    >
+                                        <svg className="h-5 w-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                        </svg>
+                                        Send an Email
+                                    </a>
+                                </div>
+
+                                {/* Divider */}
+                                <div className="my-7 flex items-center gap-3">
+                                    <span className="h-px flex-1 bg-white/8" />
+                                    <span className="text-[11px] font-semibold uppercase tracking-widest text-[#4a6275]">
+                                        Or draft a brief message
+                                    </span>
+                                    <span className="h-px flex-1 bg-white/8" />
+                                </div>
+
+                                {/* Optional pre-fill inputs */}
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="form-label text-[12px]" htmlFor="quick-name">Your Name</label>
+                                        <input
+                                            id="quick-name"
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="form-input text-sm"
+                                            placeholder="e.g. Sarah Jenkins"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="form-label text-[12px]" htmlFor="quick-message">Message / Project Brief</label>
+                                        <textarea
+                                            id="quick-message"
+                                            rows="3"
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            className="form-input resize-none text-sm"
+                                            placeholder="Briefly describe your project scope, timeline, or question..."
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="mt-5">
-                                <label className="form-label" htmlFor="contact-subject">Subject</label>
-                                <input
-                                    id="contact-subject"
-                                    type="text"
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleChange}
-                                    required
-                                    className="form-input"
-                                    placeholder="Project type or brief"
-                                />
-                            </div>
-
-                            <div className="mt-5">
-                                <label className="form-label" htmlFor="contact-message">Message</label>
-                                <textarea
-                                    id="contact-message"
-                                    name="message"
-                                    value={formData.message}
-                                    onChange={handleChange}
-                                    required
-                                    rows="5"
-                                    className="form-input resize-none"
-                                    placeholder="Tell me about your goals, timeline, and expected features..."
-                                />
-                            </div>
-
-                            {status && (
-                                <div
-                                    className={`mt-5 rounded-xl border px-4 py-3 text-[13px] font-medium ${
-                                        status.type === 'success'
-                                            ? 'border-mint/25 bg-mint/8 text-mint'
-                                            : 'border-red-400/25 bg-red-500/8 text-red-400'
-                                    }`}
-                                    role="alert"
+                            {/* Actions with pre-filled message */}
+                            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+                                <button
+                                    type="button"
+                                    onClick={handleWhatsAppSend}
+                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-mint/30 bg-mint/10 py-3 text-xs font-bold uppercase tracking-wider text-mint transition-all duration-200 hover:bg-mint/20 hover:border-mint/60"
                                 >
-                                    {status.message}
-                                </div>
-                            )}
-
-                            <button
-                                type="submit"
-                                disabled={loading}
-                                id="contact-submit"
-                                className="btn-primary mt-6 w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
-                            >
-                                {loading ? (
-                                    <>
-                                        <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                        </svg>
-                                        Sending…
-                                    </>
-                                ) : (
-                                    <>
-                                        Send Message
-                                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                                        </svg>
-                                    </>
-                                )}
-                            </button>
-                        </motion.form>
+                                    <span className="h-2 w-2 rounded-full bg-mint" />
+                                    Send to WhatsApp
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={handleEmailSend}
+                                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-accent/30 bg-accent/10 py-3 text-xs font-bold uppercase tracking-wider text-accent transition-all duration-200 hover:bg-accent/20 hover:border-accent/60"
+                                >
+                                    <span className="h-2 w-2 rounded-full bg-accent" />
+                                    Send to Email
+                                </button>
+                            </div>
+                        </motion.div>
                     </div>
                 </motion.div>
             </div>

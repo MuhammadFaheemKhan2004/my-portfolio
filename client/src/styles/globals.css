@@ -251,6 +251,61 @@ body {
     transform: translateY(-1px);
 }
 
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #ffffff !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 22px rgba(37, 211, 102, 0.35);
+    text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+    background: linear-gradient(135deg, #2ee672, #1eb85a);
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.52);
+    transform: translateY(-2px);
+    color: #ffffff !important;
+}
+
+.btn-email-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #ff7a18, #e06010);
+    color: #ffffff !important;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 22px rgba(255, 122, 24, 0.32);
+    text-decoration: none;
+}
+
+.btn-email-action:hover {
+    background: linear-gradient(135deg, #ff9642, #ff7a18);
+    box-shadow: 0 8px 30px rgba(255, 122, 24, 0.48);
+    transform: translateY(-2px);
+    color: #ffffff !important;
+}
+
+
 .btn-demo {
     display: inline-flex;
     align-items: center;
