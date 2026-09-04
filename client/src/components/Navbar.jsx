@@ -66,9 +66,10 @@ const Navbar = () => {
                         <div className="hidden items-center md:flex">
                             <a
                                 href="#contact"
-                                className="btn-primary text-[11px] px-5 py-2.5"
+                                className="btn-primary text-[11px] px-4 py-2.5 inline-flex items-center gap-2"
                             >
-                                Hire Me
+                                <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+                                Let's Talk
                             </a>
                         </div>
 
@@ -111,10 +112,11 @@ const Navbar = () => {
                                     ))}
                                     <a
                                         href="#contact"
-                                        className="btn-primary mt-2 text-center"
+                                        className="btn-primary mt-2 text-center inline-flex items-center justify-center gap-2"
                                         onClick={() => setIsOpen(false)}
                                     >
-                                        Hire Me
+                                        <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+                                        Let's Talk
                                     </a>
                                 </div>
                             </motion.div>

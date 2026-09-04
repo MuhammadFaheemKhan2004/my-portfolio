@@ -52,7 +52,7 @@ const Hero = () => (
 
                     <motion.p variants={item} className="mt-6 max-w-xl text-[1rem] leading-[1.8] text-[#7b97ae]">
                         Muhammad Faheem Khan — Mobile & Web Engineer with 2 years of experience crafting
-                        high-performance, problem-solving applications with Flutter, React, Node.js, and AI.
+                        high-performance, problem-solving applications with Flutter, Kotlin, and MERN stack.
                     </motion.p>
 
                     <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">
@@ -90,7 +90,7 @@ const Hero = () => (
                     {/* Floating badge */}
                     <div className="float-drift absolute -right-5 -top-4 z-10 glass-panel rounded-xl px-3.5 py-2.5">
                         <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7b97ae]">Stack</p>
-                        <p className="mt-0.5 text-xs font-bold text-white">Flutter · React · Node</p>
+                        <p className="mt-0.5 text-xs font-bold text-white">Flutter · Kotlin · MERN</p>
                     </div>
 
                     {/* Bottom badge */}

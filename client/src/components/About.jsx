@@ -148,7 +148,7 @@ const About = () => {
                                 </div>
 
                                 <div className="flex flex-wrap gap-2">
-                                    {['Problem Solving', 'Fleet AI (2026)', '2 Yrs Mob & Web', 'Flutter & React', 'Clean APIs'].map((tag) => (
+                                    {['Problem Solving', 'Fleet AI (2026)', 'Flutter & Kotlin', 'MERN Stack', 'Clean APIs'].map((tag) => (
                                         <span key={tag} className="rounded-full bg-white/5 border border-white/8 px-3 py-1 text-[11px] font-medium text-[#7b97ae]">
                                             {tag}
                                         </span>
