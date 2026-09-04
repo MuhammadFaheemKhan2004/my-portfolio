@@ -2,18 +2,30 @@ import { Navbar, Hero, About, Skills, Projects, Experience, Contact, Footer } fr
 
 function App() {
     return (
-        <div className="relative overflow-hidden bg-primary text-slate-100">
+        <div className="relative overflow-hidden" style={{ background: '#050c12', color: '#f0f6fc' }}>
+            {/* Background mesh */}
             <div className="pointer-events-none fixed inset-0 -z-10 mesh-bg" />
-            <div className="pointer-events-none fixed inset-0 -z-10 grid-overlay opacity-40" />
+            {/* Grid overlay */}
+            <div className="pointer-events-none fixed inset-0 -z-10 grid-overlay opacity-35" />
 
             <Navbar />
 
-            <main className="space-y-8 sm:space-y-12">
+            <main>
                 <Hero />
+
+                <div className="section-divider" />
                 <About />
+
+                <div className="section-divider" />
                 <Skills />
+
+                <div className="section-divider" />
                 <Projects />
+
+                <div className="section-divider" />
                 <Experience />
+
+                <div className="section-divider" />
                 <Contact />
             </main>
 

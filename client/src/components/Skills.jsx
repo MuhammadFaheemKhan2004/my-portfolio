@@ -1,100 +1,139 @@
 import { motion } from 'framer-motion';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { useRef } from 'react';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+
+const container = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] } },
+};
+
+const skillCategories = [
+    {
+        category: 'Mobile Engineering',
+        icon: '📱',
+        skills: ['Flutter', 'Kotlin', 'Firebase', 'GetX', 'Provider'],
+        level: 94,
+        accent: '#9b7fe8',
+        accentBg: 'bg-violet/8 border-violet/15',
+        accentText: 'text-violet',
+    },
+    {
+        category: 'Frontend Systems',
+        icon: '🖥️',
+        skills: ['React', 'JavaScript', 'Tailwind CSS', 'Framer Motion'],
+        level: 92,
+        accent: '#ff7a18',
+        accentBg: 'bg-accent/8 border-accent/15',
+        accentText: 'text-accent',
+    },
+    {
+        category: 'Backend APIs',
+        icon: '⚙️',
+        skills: ['Node.js', 'Express.js', 'REST APIs', 'JWT'],
+        level: 90,
+        accent: '#38d9a9',
+        accentBg: 'bg-mint/8 border-mint/15',
+        accentText: 'text-mint',
+    },
+    {
+        category: 'Database Layer',
+        icon: '🗄️',
+        skills: ['MongoDB', 'Firebase Realtime', 'Mongoose', 'SQL'],
+        level: 88,
+        accent: '#ffb86c',
+        accentBg: 'bg-sand/8 border-sand/15',
+        accentText: 'text-sand',
+    },
+    {
+        category: 'Languages',
+        icon: '{ }',
+        skills: ['Dart', 'Kotlin', 'JavaScript', 'Python'],
+        level: 91,
+        accent: '#ff7a18',
+        accentBg: 'bg-accent/8 border-accent/15',
+        accentText: 'text-accent',
+    },
+    {
+        category: 'AI + Integrations',
+        icon: '🤖',
+        skills: ['OpenAI API', 'Gemini API', 'Google APIs', 'News API'],
+        level: 86,
+        accent: '#38d9a9',
+        accentBg: 'bg-mint/8 border-mint/15',
+        accentText: 'text-mint',
+    },
+];
 
 const Skills = () => {
     const ref = useRef(null);
     const isVisible = useIntersectionObserver(ref);
 
-    const skillCategories = [
-        {
-            category: 'Mobile Engineering',
-            skills: ['Flutter', 'Kotlin', 'Firebase', 'GetX', 'Provider'],
-            level: 94,
-        },
-        {
-            category: 'Frontend Systems',
-            skills: ['React', 'JavaScript', 'Tailwind CSS', 'Framer Motion', 'State Design'],
-            level: 92,
-        },
-        {
-            category: 'Backend APIs',
-            skills: ['Node.js', 'Express.js', 'REST APIs', 'JWT', 'CORS'],
-            level: 90,
-        },
-        {
-            category: 'Database Layer',
-            skills: ['MongoDB', 'Firebase Realtime', 'Mongoose', 'SQL'],
-            level: 88,
-        },
-        {
-            category: 'Languages',
-            skills: ['Dart', 'Kotlin', 'JavaScript', 'Python'],
-            level: 91,
-        },
-        {
-            category: 'AI + Integrations',
-            skills: ['OpenAI API', 'Google APIs', 'News API', 'Gemini API', 'Custom AI Models'],
-            level: 86,
-        },
-    ];
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 },
-        },
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    };
-
     return (
-        <section id="skills" className="py-16 sm:py-20">
+        <section id="skills" className="py-20 sm:py-24">
             <div className="section-shell">
                 <motion.div
                     ref={ref}
-                    variants={containerVariants}
+                    variants={container}
                     initial="hidden"
                     animate={isVisible ? 'visible' : 'hidden'}
                 >
-                    <motion.div variants={itemVariants} className="mb-10 text-center">
+                    {/* Header */}
+                    <motion.div variants={item} className="mb-14 text-center">
                         <span className="eyebrow">Capabilities</span>
-                        <h2 className="section-title mt-4">Crafted across mobile, web, backend, and AI.</h2>
-                        <p className="section-subtitle mx-auto mt-4 max-w-3xl">
-                            A practical stack built for shipping products fast without sacrificing long-term maintainability.
+                        <h2 className="section-title mt-5">
+                            Built across every layer<br />
+                            <span className="shimmer-text">of the stack.</span>
+                        </h2>
+                        <p className="section-subtitle mx-auto mt-4 max-w-xl">
+                            A practical stack for shipping fast without sacrificing quality.
                         </p>
                     </motion.div>
 
-                    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {/* Grid */}
+                    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                         {skillCategories.map((cat) => (
                             <motion.div
                                 key={cat.category}
-                                variants={itemVariants}
-                                className="glass-panel rounded-3xl p-6 transition-transform duration-300 hover:-translate-y-1"
+                                variants={item}
+                                className="glass-panel group rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-panel"
                             >
-                                <div className="flex items-start justify-between gap-2">
-                                    <h3 className="text-lg font-semibold text-slate-100">{cat.category}</h3>
-                                    <span className="rounded-full border border-sand/30 px-2.5 py-1 text-xs font-semibold text-sand">
+                                {/* Card header */}
+                                <div className="flex items-center justify-between gap-2">
+                                    <div className="flex items-center gap-3">
+                                        <span className={`inline-flex h-9 w-9 items-center justify-center rounded-lg border text-base ${cat.accentBg}`}>
+                                            {cat.icon}
+                                        </span>
+                                        <h3 className="text-[15px] font-semibold text-white">{cat.category}</h3>
+                                    </div>
+                                    <span className={`text-lg font-bold font-display ${cat.accentText}`}>
                                         {cat.level}%
                                     </span>
                                 </div>
 
-                                <div className="mt-4 h-2 rounded-full bg-slate-900/70">
-                                    <div
-                                        className="h-2 rounded-full bg-gradient-to-r from-accent to-mint"
-                                        style={{ width: `${cat.level}%` }}
+                                {/* Skill bar */}
+                                <div className="skill-bar-track mt-4">
+                                    <motion.div
+                                        className="skill-bar-fill"
+                                        initial={{ width: 0 }}
+                                        animate={isVisible ? { width: `${cat.level}%` } : { width: 0 }}
+                                        transition={{ duration: 1.1, ease: 'easeOut', delay: 0.3 }}
+                                        style={{
+                                            background: `linear-gradient(90deg, ${cat.accent}99, ${cat.accent})`,
+                                        }}
                                     />
                                 </div>
 
-                                <div className="mt-5 flex flex-wrap gap-2">
-                                    {cat.skills.map((skill, i) => (
+                                {/* Skill pills */}
+                                <div className="mt-5 flex flex-wrap gap-1.5">
+                                    {cat.skills.map((skill) => (
                                         <span
-                                            key={i}
-                                            className="rounded-full border border-slate-400/35 bg-primary/45 px-3 py-1 text-xs font-medium uppercase tracking-[0.08em] text-slate-200"
+                                            key={skill}
+                                            className="rounded-full border border-white/8 bg-white/4 px-2.5 py-1 text-[11px] font-medium text-[#7b97ae] transition group-hover:border-white/12 group-hover:text-[#d1dce8]"
                                         >
                                             {skill}
                                         </span>

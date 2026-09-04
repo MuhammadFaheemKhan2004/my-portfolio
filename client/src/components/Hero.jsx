@@ -1,130 +1,124 @@
 import { motion } from 'framer-motion';
 import profilePic from '../assets/FAHEEM.jpeg';
 
-const Hero = () => {
-    const quickStats = [
-        { label: 'Projects', value: '50+' },
-        { label: 'Years in Build', value: '2+' },
-        { label: 'Client Satisfaction', value: '98%' },
-    ];
+const container = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.13, delayChildren: 0.2 },
+    },
+};
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.14,
-                delayChildren: 0.15,
-            },
-        },
-    };
+const item = {
+    hidden: { opacity: 0, y: 28 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] } },
+};
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.65, ease: 'easeOut' },
-        },
-    };
+const stats = [
+    { value: '50+', label: 'Projects' },
+    { value: '2+', label: 'Years' },
+    { value: '98%', label: 'Satisfaction' },
+];
 
-    return (
-        <section id="home" className="relative min-h-screen pt-28 sm:pt-32">
-            <motion.div
-                className="section-shell"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-                    <div>
-                        <motion.span variants={itemVariants} className="eyebrow mb-6">
-                            Mobile + Full Stack Engineer
-                        </motion.span>
+const Hero = () => (
+    <section id="home" className="relative min-h-screen pt-32 sm:pt-36 pb-16">
+        {/* Ambient glows */}
+        <div className="pointer-events-none absolute left-1/4 top-24 h-72 w-72 rounded-full bg-accent/10 blur-[90px]" />
+        <div className="pointer-events-none absolute right-1/4 top-40 h-56 w-56 rounded-full bg-mint/8 blur-[80px]" />
 
-                        <motion.h1
-                            variants={itemVariants}
-                            className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl"
-                        >
-                            I build products people remember at first glance.
-                        </motion.h1>
+        <motion.div
+            className="section-shell"
+            variants={container}
+            initial="hidden"
+            animate="visible"
+        >
+            <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
+                {/* Left — text */}
+                <div>
+                    <motion.div variants={item}>
+                        <span className="eyebrow">
+                            <span className="pulse-glow inline-block h-1.5 w-1.5 rounded-full bg-mint" />
+                            Available for Freelance
+                        </span>
+                    </motion.div>
 
-                        <motion.p
-                            variants={itemVariants}
-                            className="section-subtitle mt-6 max-w-2xl"
-                        >
-                            I am Muhammad Faheem Khan. I craft high-performance digital experiences across Flutter,
-                            React, Node.js, and AI integrations with a focus on clarity, speed, and visual impact.
-                        </motion.p>
+                    <motion.h1
+                        variants={item}
+                        className="mt-6 font-display text-[2.6rem] font-bold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]"
+                    >
+                        I build products<br />
+                        <span className="shimmer-text">people remember.</span>
+                    </motion.h1>
 
-                        <motion.div
-                            variants={itemVariants}
-                            className="mt-9 flex flex-wrap items-center gap-4"
-                        >
-                            <a
-                                href="#projects"
-                                className="rounded-full bg-accent px-7 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-primary transition hover:bg-accent-hover"
-                            >
-                                See My Work
-                            </a>
-                            <a
-                                href="#contact"
-                                className="rounded-full border border-sand/45 px-7 py-3 text-sm font-semibold uppercase tracking-[0.15em] text-sand transition hover:bg-sand/10"
-                            >
-                                Start A Project
-                            </a>
-                        </motion.div>
+                    <motion.p variants={item} className="mt-6 max-w-xl text-[1rem] leading-[1.8] text-[#7b97ae]">
+                        Muhammad Faheem Khan — Mobile + Full Stack Engineer crafting
+                        high-performance apps with Flutter, React, Node.js, and AI.
+                    </motion.p>
 
-                        <motion.div
-                            variants={itemVariants}
-                            className="mt-10 grid gap-3 sm:grid-cols-3"
-                        >
-                            {quickStats.map((item) => (
-                                <div key={item.label} className="glass-panel rounded-2xl p-4">
-                                    <p className="text-2xl font-extrabold text-sand sm:text-3xl">{item.value}</p>
-                                    <p className="mt-1 text-xs uppercase tracking-[0.14em] text-slate-300">{item.label}</p>
-                                </div>
-                            ))}
-                        </motion.div>
-                    </div>
+                    <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">
+                        <a href="#projects" className="btn-primary">
+                            View My Work
+                            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                        <a href="#contact" className="btn-ghost">
+                            Start a Project
+                        </a>
+                    </motion.div>
 
-                    <motion.div variants={itemVariants} className="relative mx-auto w-full max-w-sm lg:max-w-md">
-                        <div className="absolute -left-10 top-7 h-28 w-28 rounded-full bg-accent/30 blur-2xl" />
-                        <div className="absolute -bottom-8 -right-12 h-40 w-40 rounded-full bg-mint/25 blur-3xl" />
-
-                        <div className="glass-panel relative overflow-hidden rounded-[2rem] p-4 sm:p-5">
-                            <div className="absolute inset-0 bg-gradient-to-br from-sand/10 via-transparent to-mint/10" />
-
-                            <div className="relative rounded-[1.5rem] border border-slate-100/10 bg-primary/60 p-4">
-                                <div className="float-drift absolute -right-4 -top-4 rounded-full border border-sand/30 bg-primary/70 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-sand">
-                                    Available for Freelance
-                                </div>
-
-                                <div className="aspect-[4/5] overflow-hidden rounded-2xl border border-slate-100/10">
-                                    <img
-                                        src={profilePic}
-                                        alt="Muhammad Faheem Khan"
-                                        className="h-full w-full object-cover"
-                                    />
-                                </div>
-
-                                <div className="mt-4 grid grid-cols-2 gap-3">
-                                    <div className="rounded-xl bg-secondary/70 p-3">
-                                        <p className="text-xs uppercase tracking-[0.13em] text-slate-400">Primary Stack</p>
-                                        <p className="mt-1 text-sm font-semibold text-slate-100">Flutter • React • Node</p>
-                                    </div>
-                                    <div className="rounded-xl bg-secondary/70 p-3">
-                                        <p className="text-xs uppercase tracking-[0.13em] text-slate-400">Delivery Focus</p>
-                                        <p className="mt-1 text-sm font-semibold text-slate-100">Performance + UX</p>
-                                    </div>
+                    {/* Stats row */}
+                    <motion.div variants={item} className="mt-12 flex items-center gap-8">
+                        {stats.map((s, i) => (
+                            <div key={s.label} className="flex items-center gap-3">
+                                {i > 0 && <span className="h-8 w-px bg-white/8" />}
+                                <div>
+                                    <p className="font-display text-2xl font-bold text-white sm:text-3xl">{s.value}</p>
+                                    <p className="mt-0.5 text-[11px] uppercase tracking-widest text-[#7b97ae]">{s.label}</p>
                                 </div>
                             </div>
-                        </div>
+                        ))}
                     </motion.div>
                 </div>
-            </motion.div>
-        </section>
-    );
-};
+
+                {/* Right — profile card */}
+                <motion.div variants={item} className="relative mx-auto w-full max-w-[340px] lg:max-w-[380px]">
+                    {/* Decorative rings */}
+                    <div className="absolute -inset-6 rounded-[2.5rem] border border-accent/8" />
+                    <div className="absolute -inset-12 rounded-[3rem] border border-white/4" />
+
+                    {/* Floating badge */}
+                    <div className="float-drift absolute -right-5 -top-4 z-10 glass-panel rounded-xl px-3.5 py-2.5">
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-[#7b97ae]">Stack</p>
+                        <p className="mt-0.5 text-xs font-bold text-white">Flutter · React · Node</p>
+                    </div>
+
+                    {/* Bottom badge */}
+                    <div className="float-drift absolute -bottom-3 -left-4 z-10 glass-panel rounded-xl px-3.5 py-2.5" style={{ animationDelay: '3s' }}>
+                        <p className="text-[10px] font-semibold uppercase tracking-widest text-mint">Open to Work</p>
+                        <p className="mt-0.5 text-xs font-bold text-white">Remote · Hybrid</p>
+                    </div>
+
+                    {/* Main card */}
+                    <div className="glass-panel-strong relative overflow-hidden rounded-[2rem] p-1.5">
+                        <div className="overflow-hidden rounded-[1.65rem]">
+                            <img
+                                src={profilePic}
+                                alt="Muhammad Faheem Khan"
+                                className="h-full w-full object-cover aspect-[3/4] transition-transform duration-700 hover:scale-105"
+                                loading="eager"
+                            />
+                        </div>
+                        {/* Name overlay at bottom of image */}
+                        <div className="absolute bottom-0 left-0 right-0 rounded-b-[1.65rem] bg-gradient-to-t from-[#050c12]/95 to-transparent px-5 py-5">
+                            <p className="font-display text-base font-bold text-white">Muhammad Faheem Khan</p>
+                            <p className="text-[11px] text-[#7b97ae] mt-0.5">Mobile + Full Stack Engineer</p>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </motion.div>
+    </section>
+);
 
 export default Hero;
