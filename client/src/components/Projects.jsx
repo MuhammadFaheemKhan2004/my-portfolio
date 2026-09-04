@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { ProjectService } from '@/services/api';
 
@@ -230,25 +230,42 @@ const Projects = () => {
     const [activeFilter, setActiveFilter] = useState('All');
 
     useEffect(() => {
-        const fetch = async () => {
+        const fetchProjects = async () => {
             try {
                 const res = await ProjectService.getAll();
-                const data = Array.isArray(res.data) ? res.data : [];
-                setProjects(data.length ? data : FALLBACK_PROJECTS);
+                // Handle both: plain array OR { data: [...] } wrapped response
+                const raw = Array.isArray(res.data)
+                    ? res.data
+                    : Array.isArray(res.data?.data)
+                        ? res.data.data
+                        : [];
+
+                if (raw.length === 0) {
+                    setProjects(FALLBACK_PROJECTS);
+                } else {
+                    // Normalise: add default type/playStoreUrl if missing (old DB records)
+                    const normalised = raw.map((p) => ({
+                        ...p,
+                        type: p.type || 'web',
+                        playStoreUrl: p.playStoreUrl || '',
+                    }));
+                    setProjects(normalised);
+                }
             } catch {
                 setProjects(FALLBACK_PROJECTS);
             } finally {
                 setLoading(false);
             }
         };
-        fetch();
+        fetchProjects();
     }, []);
 
     const filtered = projects.filter((p) => {
         if (activeFilter === 'All') return true;
-        if (activeFilter === 'Mobile') return p.type === 'mobile';
-        if (activeFilter === 'Web') return p.type === 'web';
-        if (activeFilter === 'Full Stack') return p.type === 'fullstack';
+        const t = p.type || 'web';
+        if (activeFilter === 'Mobile') return t === 'mobile';
+        if (activeFilter === 'Web') return t === 'web';
+        if (activeFilter === 'Full Stack') return t === 'fullstack';
         return true;
     });
 
@@ -293,26 +310,23 @@ const Projects = () => {
                             {[1, 2, 3, 4, 5, 6].map((n) => <SkeletonCard key={n} />)}
                         </div>
                     ) : (
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeFilter}
-                                className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.25 }}
-                            >
-                                {filtered.length > 0 ? (
-                                    filtered.map((project) => (
-                                        <ProjectCard key={project._id} project={project} />
-                                    ))
-                                ) : (
-                                    <div className="col-span-full py-16 text-center">
-                                        <p className="text-[#7b97ae]">No projects in this category yet.</p>
-                                    </div>
-                                )}
-                            </motion.div>
-                        </AnimatePresence>
+                        <motion.div
+                            className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {filtered.length > 0 ? (
+                                filtered.map((project) => (
+                                    <ProjectCard key={project._id} project={project} />
+                                ))
+                            ) : (
+                                <div className="col-span-full py-16 text-center">
+                                    <p className="text-[15px] text-[#7b97ae]">No projects in this category yet.</p>
+                                    <p className="mt-2 text-[13px] text-[#4a6275]">Check back soon or view all projects.</p>
+                                </div>
+                            )}
+                        </motion.div>
                     )}
                 </motion.div>
             </div>

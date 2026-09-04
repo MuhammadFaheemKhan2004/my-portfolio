@@ -28,6 +28,15 @@ const ProjectSchema = new mongoose.Schema(
             type: String,
             default: '',
         },
+        playStoreUrl: {
+            type: String,
+            default: '',
+        },
+        type: {
+            type: String,
+            enum: ['mobile', 'web', 'fullstack'],
+            default: 'web',
+        },
         featured: {
             type: Boolean,
             default: false,
