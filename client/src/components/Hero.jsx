@@ -15,8 +15,8 @@ const item = {
 };
 
 const stats = [
+    { value: '2+', label: 'Years Exp.' },
     { value: '50+', label: 'Projects' },
-    { value: '2+', label: 'Years' },
     { value: '98%', label: 'Satisfaction' },
 ];
 
@@ -38,7 +38,7 @@ const Hero = () => (
                     <motion.div variants={item}>
                         <span className="eyebrow">
                             <span className="pulse-glow inline-block h-1.5 w-1.5 rounded-full bg-mint" />
-                            Available for Freelance
+                            Available for Opportunities
                         </span>
                     </motion.div>
 
@@ -46,13 +46,13 @@ const Hero = () => (
                         variants={item}
                         className="mt-6 font-display text-[2.6rem] font-bold leading-[1.06] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]"
                     >
-                        I build products<br />
-                        <span className="shimmer-text">people remember.</span>
+                        Solving real problems<br />
+                        <span className="shimmer-text">through scalable products.</span>
                     </motion.h1>
 
                     <motion.p variants={item} className="mt-6 max-w-xl text-[1rem] leading-[1.8] text-[#7b97ae]">
-                        Muhammad Faheem Khan — Mobile + Full Stack Engineer crafting
-                        high-performance apps with Flutter, React, Node.js, and AI.
+                        Muhammad Faheem Khan — Mobile & Web Engineer with 2 years of experience crafting
+                        high-performance, problem-solving applications with Flutter, React, Node.js, and AI.
                     </motion.p>
 
                     <motion.div variants={item} className="mt-9 flex flex-wrap items-center gap-3">

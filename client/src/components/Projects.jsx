@@ -13,12 +13,12 @@ const item = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.25, 0.1, 0.25, 1] } },
 };
 
-// Fallback static data for when API is unavailable
+// Fallback static data — rendered IMMEDIATELY so page is never blank
 const FALLBACK_PROJECTS = [
     {
         _id: '1',
         title: 'Exam Master App',
-        description: '50,000+ MCQs platform for CSS, PMS, PPSC, ECAT, MDCAT with real-time job alerts and Firebase backend.',
+        description: '50,000+ MCQs preparation platform for CSS, PMS, PPSC, ECAT, MDCAT with real-time job alerts and Firebase backend.',
         image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=400&fit=crop',
         technologies: ['Flutter', 'Firebase', 'Kotlin'],
         github: 'https://github.com',
@@ -30,7 +30,7 @@ const FALLBACK_PROJECTS = [
     {
         _id: '2',
         title: 'AI Lawyer App',
-        description: 'Intelligent legal assistant with case-specific roadmaps, document analysis, and AI-powered legal insights.',
+        description: 'Intelligent legal assistant providing case-specific roadmaps, document analysis, and AI-powered legal insights.',
         image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=400&fit=crop',
         technologies: ['React', 'Node.js', 'OpenAI', 'MongoDB'],
         github: 'https://github.com',
@@ -42,7 +42,7 @@ const FALLBACK_PROJECTS = [
     {
         _id: '3',
         title: 'News Aggregator App',
-        description: 'Real-time news with intelligent category filtering, personalized recommendations, and offline reading.',
+        description: 'Real-time news aggregator with category-based filtering, offline caching, and instant breaking news feeds.',
         image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&h=400&fit=crop',
         technologies: ['Flutter', 'News API', 'Firebase', 'Dart'],
         github: 'https://github.com',
@@ -53,8 +53,8 @@ const FALLBACK_PROJECTS = [
     },
     {
         _id: '4',
-        title: 'Google Maps Integration',
-        description: 'Advanced location services with real-time navigation, route optimization, and GPS tracking.',
+        title: 'Google Maps Integration App',
+        description: 'Advanced location services with real-time navigation, route optimization, and GPS fleet tracking.',
         image: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&h=400&fit=crop',
         technologies: ['Kotlin', 'Google Maps API', 'Android SDK'],
         github: 'https://github.com',
@@ -66,7 +66,7 @@ const FALLBACK_PROJECTS = [
     {
         _id: '5',
         title: 'Event Management Platform',
-        description: 'Complete wedding & event planning solution with vendor management, budgets, and payment integration.',
+        description: 'Complete event planning solution with vendor booking, budget management, and secure payment workflows.',
         image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop',
         technologies: ['React', 'Node.js', 'MongoDB', 'Stripe'],
         github: 'https://github.com',
@@ -78,7 +78,7 @@ const FALLBACK_PROJECTS = [
     {
         _id: '6',
         title: 'Real-Time Chat App',
-        description: 'Instant messaging with typing indicators, read receipts, group chats, and Firebase Realtime Database.',
+        description: 'Instant messaging application with typing indicators, message delivery status, and Firebase sync.',
         image: 'https://images.unsplash.com/photo-1611532736579-6b16e2b50449?w=600&h=400&fit=crop',
         technologies: ['React', 'Firebase', 'TypeScript'],
         github: 'https://github.com',
@@ -98,12 +98,12 @@ const typeBadge = {
 };
 
 function ProjectCard({ project }) {
-    const badge = typeBadge[project.type] || typeBadge.web;
+    const rawType = (project.type || 'web').toLowerCase();
+    const badge = typeBadge[rawType] || typeBadge.web;
 
     return (
-        <motion.article
-            variants={item}
-            className="project-card glass-panel group"
+        <article
+            className="project-card glass-panel group transition-all duration-300 hover:-translate-y-1.5 hover:shadow-panel"
             aria-label={project.title}
         >
             {/* Image area */}
@@ -137,14 +137,14 @@ function ProjectCard({ project }) {
                     {project.title}
                 </h3>
 
-                {/* Description — hidden by default, revealed on hover via CSS */}
+                {/* Description — revealed on hover via CSS */}
                 <p className="project-card-desc mt-2 text-[13px] leading-[1.75] text-[#7b97ae]">
                     {project.description}
                 </p>
 
                 {/* Tech pills */}
                 <div className="mt-3 flex flex-wrap gap-1.5">
-                    {project.technologies.slice(0, 4).map((tech) => (
+                    {project.technologies?.slice(0, 4).map((tech) => (
                         <span
                             key={tech}
                             className="rounded-full border border-white/8 bg-white/4 px-2.5 py-0.5 text-[11px] font-medium text-[#7b97ae]"
@@ -200,50 +200,29 @@ function ProjectCard({ project }) {
                     )}
                 </div>
             </div>
-        </motion.article>
-    );
-}
-
-// Skeleton loader
-function SkeletonCard() {
-    return (
-        <div className="glass-panel rounded-2xl overflow-hidden animate-pulse">
-            <div className="h-52 bg-secondary/60" />
-            <div className="p-5">
-                <div className="h-4 w-2/3 rounded bg-secondary/60" />
-                <div className="mt-3 h-3 w-full rounded bg-secondary/50" />
-                <div className="mt-2 h-3 w-4/5 rounded bg-secondary/50" />
-                <div className="mt-4 flex gap-2">
-                    <div className="h-7 w-20 rounded-full bg-secondary/60" />
-                    <div className="h-7 w-16 rounded-full bg-secondary/60" />
-                </div>
-            </div>
-        </div>
+        </article>
     );
 }
 
 const Projects = () => {
     const ref = useRef(null);
     const isVisible = useIntersectionObserver(ref);
-    const [projects, setProjects] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // Hardcode fallback projects as initial state so they appear instantly on first load
+    const [projects, setProjects] = useState(FALLBACK_PROJECTS);
     const [activeFilter, setActiveFilter] = useState('All');
 
     useEffect(() => {
+        // Fetch fresh data in the background from MongoDB/API
         const fetchProjects = async () => {
             try {
                 const res = await ProjectService.getAll();
-                // Handle both: plain array OR { data: [...] } wrapped response
                 const raw = Array.isArray(res.data)
                     ? res.data
                     : Array.isArray(res.data?.data)
                         ? res.data.data
                         : [];
 
-                if (raw.length === 0) {
-                    setProjects(FALLBACK_PROJECTS);
-                } else {
-                    // Normalise: add default type/playStoreUrl if missing (old DB records)
+                if (raw.length > 0) {
                     const normalised = raw.map((p) => ({
                         ...p,
                         type: p.type || 'web',
@@ -251,10 +230,9 @@ const Projects = () => {
                     }));
                     setProjects(normalised);
                 }
-            } catch {
-                setProjects(FALLBACK_PROJECTS);
-            } finally {
-                setLoading(false);
+            } catch (err) {
+                // If backend is sleeping or fails, the hardcoded fallback is already active
+                console.log('Using hardcoded fallback projects:', err?.message);
             }
         };
         fetchProjects();
@@ -262,10 +240,10 @@ const Projects = () => {
 
     const filtered = projects.filter((p) => {
         if (activeFilter === 'All') return true;
-        const t = p.type || 'web';
+        const t = (p.type || 'web').toLowerCase().trim();
         if (activeFilter === 'Mobile') return t === 'mobile';
         if (activeFilter === 'Web') return t === 'web';
-        if (activeFilter === 'Full Stack') return t === 'fullstack';
+        if (activeFilter === 'Full Stack') return t === 'fullstack' || t === 'full-stack' || t === 'full stack';
         return true;
     });
 
@@ -304,30 +282,19 @@ const Projects = () => {
                         ))}
                     </motion.div>
 
-                    {/* Grid */}
-                    {loading ? (
-                        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                            {[1, 2, 3, 4, 5, 6].map((n) => <SkeletonCard key={n} />)}
-                        </div>
-                    ) : (
-                        <motion.div
-                            className="grid gap-5 md:grid-cols-2 lg:grid-cols-3"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            {filtered.length > 0 ? (
-                                filtered.map((project) => (
-                                    <ProjectCard key={project._id} project={project} />
-                                ))
-                            ) : (
-                                <div className="col-span-full py-16 text-center">
-                                    <p className="text-[15px] text-[#7b97ae]">No projects in this category yet.</p>
-                                    <p className="mt-2 text-[13px] text-[#4a6275]">Check back soon or view all projects.</p>
-                                </div>
-                            )}
-                        </motion.div>
-                    )}
+                    {/* Grid — rendered immediately */}
+                    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                        {filtered.length > 0 ? (
+                            filtered.map((project) => (
+                                <ProjectCard key={project._id || project.title} project={project} />
+                            ))
+                        ) : (
+                            <div className="col-span-full py-16 text-center">
+                                <p className="text-[15px] text-[#7b97ae]">No projects in this category yet.</p>
+                                <p className="mt-2 text-[13px] text-[#4a6275]">Check back soon or view all projects.</p>
+                            </div>
+                        )}
+                    </div>
                 </motion.div>
             </div>
         </section>
@@ -335,3 +302,4 @@ const Projects = () => {
 };
 
 export default Projects;
+

@@ -81,14 +81,14 @@ const About = () => {
                         {/* Left — bio */}
                         <motion.div variants={item} className="glass-panel rounded-3xl p-8 sm:p-10">
                             <p className="text-[1.05rem] leading-[1.85] text-[#d1dce8]">
-                                I'm <span className="font-semibold text-white">Muhammad Faheem Khan</span> — a developer
-                                who combines clean architecture with sharp UI execution. Products I build
-                                don't just function — they leave a lasting impression.
+                                I'm <span className="font-semibold text-white">Muhammad Faheem Khan</span> — a Mobile & Web Engineer
+                                with <span className="text-white font-medium">2 years of hands-on experience</span> solving complex product
+                                problems through clean architecture, scalable code, and intuitive user experiences.
                             </p>
                             <p className="mt-5 text-[0.925rem] leading-[1.85] text-[#7b97ae]">
-                                My work spans Flutter and React frontends, performant Node.js backends,
-                                and practical AI enhancements — optimized for speed, scalability,
-                                and visual confidence from the first interaction.
+                                Former Software Engineer at <span className="text-white font-medium">Fleet AI</span>, specializing in production
+                                Flutter mobile apps, responsive React web platforms, and robust Node.js APIs designed for speed, security,
+                                and measurable user impact.
                             </p>
 
                             {/* Pillar cards */}
@@ -119,20 +119,36 @@ const About = () => {
 
                             {/* Extra info card */}
                             <div className="col-span-2 glass-panel rounded-2xl p-5">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-accent/15">
-                                        <svg className="h-4 w-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-                                    </span>
-                                    <div>
-                                        <p className="text-[11px] uppercase tracking-widest text-[#7b97ae]">Based in</p>
-                                        <p className="text-sm font-semibold text-white">Islamabad, Pakistan</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/15">
+                                            <svg className="h-4 w-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <p className="text-[10px] uppercase tracking-widest text-[#7b97ae]">Location</p>
+                                            <p className="text-xs font-semibold text-white">Islamabad, Pakistan</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-3">
+                                        <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-mint/15">
+                                            <svg className="h-4 w-4 text-mint" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <p className="text-[10px] uppercase tracking-widest text-[#7b97ae]">Education (2022–2026)</p>
+                                            <p className="text-xs font-semibold text-white">Quaid-i-Azam University</p>
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div className="flex flex-wrap gap-2">
-                                    {['User-first architecture', 'Mobile + Web', 'AI-enhanced apps', 'Clean APIs'].map((tag) => (
+                                    {['Problem Solving', 'Fleet AI (2026)', '2 Yrs Mob & Web', 'Flutter & React', 'Clean APIs'].map((tag) => (
                                         <span key={tag} className="rounded-full bg-white/5 border border-white/8 px-3 py-1 text-[11px] font-medium text-[#7b97ae]">
                                             {tag}
                                         </span>
