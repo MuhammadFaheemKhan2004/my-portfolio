@@ -1,4 +1,4 @@
-import { Navbar, Hero, About, Skills, Projects, Experience, Contact, Footer } from './components';
+import { Navbar, Hero, About, Skills, InteractiveSimulator, Projects, Experience, Contact, Footer } from './components';
 
 function App() {
     return (
@@ -18,6 +18,9 @@ function App() {
 
                 <div className="section-divider" />
                 <Skills />
+
+                <div className="section-divider" />
+                <InteractiveSimulator />
 
                 <div className="section-divider" />
                 <Projects />
