@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-const Footer = () => {
+const Footer = ({ onReplayIntro }) => {
     const year = new Date().getFullYear();
 
     const links = [
@@ -95,10 +95,20 @@ const Footer = () => {
                     </div>
 
                     {/* Bottom row */}
-                    <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-white/5 pt-6 sm:flex-row">
+                    <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/5 pt-6 sm:flex-row">
                         <p className="text-[12px] text-[#4a6275]">
                             Designed & engineered by Muhammad Faheem Khan
                         </p>
+                        {onReplayIntro && (
+                            <button
+                                type="button"
+                                onClick={onReplayIntro}
+                                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/4 border border-white/8 text-[11px] font-mono text-[#7b97ae] hover:text-white hover:border-accent/40 transition cursor-pointer"
+                                title="Watch the car intro animation again"
+                            >
+                                <span>🏎️ Replay Car Intro</span>
+                            </button>
+                        )}
                         <p className="text-[12px] text-[#4a6275]">
                             © {year} All rights reserved.
                         </p>
