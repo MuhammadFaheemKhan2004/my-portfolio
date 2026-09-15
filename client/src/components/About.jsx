@@ -77,31 +77,31 @@ const About = () => {
                         </h2>
                     </motion.div>
 
-                    <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
+                    <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1fr]">
                         {/* Left — bio */}
-                        <motion.div variants={item} className="glass-panel rounded-3xl p-8 sm:p-10">
-                            <p className="text-[1.05rem] leading-[1.85] text-[#d1dce8]">
+                        <motion.div variants={item} className="glass-panel rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10">
+                            <p className="text-[1rem] sm:text-[1.05rem] leading-[1.8] sm:leading-[1.85] text-[#d1dce8]">
                                 I'm <span className="font-semibold text-white">Muhammad Faheem Khan</span> — a Mobile & Web Engineer
                                 with <span className="text-white font-medium">2 years of hands-on experience</span> solving complex product
                                 problems through clean architecture, scalable code, and intuitive user experiences.
                             </p>
-                            <p className="mt-5 text-[0.925rem] leading-[1.85] text-[#7b97ae]">
+                            <p className="mt-4 sm:mt-5 text-[0.9rem] sm:text-[0.925rem] leading-[1.8] sm:leading-[1.85] text-[#7b97ae]">
                                 Former Software Engineer at <span className="text-white font-medium">Fleet AI</span>, specializing in production
                                 Flutter mobile apps, responsive React web platforms, and robust Node.js APIs designed for speed, security,
                                 and measurable user impact.
                             </p>
 
                             {/* Pillar cards */}
-                            <div className="mt-8 grid gap-3">
+                            <div className="mt-6 sm:mt-8 grid gap-3">
                                 {pillars.map((p) => (
                                     <div
                                         key={p.title}
-                                        className={`flex items-start gap-4 rounded-xl border p-4 ${p.bg}`}
+                                        className={`flex items-start gap-3 sm:gap-4 rounded-xl border p-3.5 sm:p-4 ${p.bg}`}
                                     >
                                         <span className={`mt-0.5 shrink-0 ${p.color}`}>{p.icon}</span>
                                         <div>
                                             <p className={`text-[13px] font-bold uppercase tracking-wider ${p.color}`}>{p.title}</p>
-                                            <p className="mt-0.5 text-[13px] text-[#7b97ae]">{p.desc}</p>
+                                            <p className="mt-0.5 text-[12px] sm:text-[13px] text-[#7b97ae]">{p.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -109,16 +109,16 @@ const About = () => {
                         </motion.div>
 
                         {/* Right — stats grid */}
-                        <motion.div variants={item} className="grid grid-cols-2 gap-4 content-start">
+                        <motion.div variants={item} className="grid grid-cols-2 gap-3 sm:gap-4 content-start">
                             {stats.map((s) => (
-                                <div key={s.label} className="stat-card glass-panel">
-                                    <p className={`font-display text-4xl font-bold ${s.color}`}>{s.value}</p>
-                                    <p className="mt-2 text-[11px] font-semibold uppercase tracking-widest text-[#7b97ae]">{s.label}</p>
+                                <div key={s.label} className="stat-card glass-panel p-4 sm:p-6">
+                                    <p className={`font-display text-3xl sm:text-4xl font-bold ${s.color}`}>{s.value}</p>
+                                    <p className="mt-1.5 sm:mt-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-widest text-[#7b97ae]">{s.label}</p>
                                 </div>
                             ))}
 
                             {/* Extra info card */}
-                            <div className="col-span-2 glass-panel rounded-2xl p-5">
+                            <div className="col-span-2 glass-panel rounded-2xl p-4 sm:p-5">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                                     <div className="flex items-center gap-3">
                                         <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/15">
